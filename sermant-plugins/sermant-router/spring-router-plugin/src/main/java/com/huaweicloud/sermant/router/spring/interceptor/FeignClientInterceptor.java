@@ -21,6 +21,7 @@ import com.huaweicloud.sermant.core.plugin.agent.entity.ExecuteContext;
 import com.huaweicloud.sermant.core.plugin.agent.interceptor.AbstractInterceptor;
 import com.huaweicloud.sermant.router.common.request.RequestData;
 import com.huaweicloud.sermant.router.common.request.RequestHeader;
+import com.huaweicloud.sermant.router.common.utils.FlowContextUtils;
 import com.huaweicloud.sermant.router.common.utils.ReflectUtils;
 import com.huaweicloud.sermant.router.common.utils.ThreadLocalUtils;
 
@@ -62,7 +63,7 @@ public class FeignClientInterceptor extends AbstractInterceptor {
             String path = URI.create(request.url()).getPath();
             Map<String, List<String>> headers = getHeaders(request.headers());
             setHeaders(request, headers);
-            ThreadLocalUtils.setRequestData(new RequestData(headers, path, request.method()));
+            ThreadLocalUtils.setRequestData(new RequestData(decodeTags(headers), path, request.method()));
         }
         return context;
     }
@@ -128,5 +129,19 @@ public class FeignClientInterceptor extends AbstractInterceptor {
             }
         }
         return Optional.empty();
+    }
+
+    private Map<String, List<String>> decodeTags(Map<String, List<String>> headers) {
+        Map<String, List<String>> newHeaders = new HashMap<>(headers);
+        if (headers != null && headers.size() > 0) {
+            List<String> list = headers.get("sw8-correlation");
+            if (list != null && list.size() > 0) {
+                String tagStr = list.get(0);
+                Map<String, List<String>> stringListMap = FlowContextUtils.decodeTags(tagStr);
+                newHeaders.putAll(stringListMap);
+                return Collections.unmodifiableMap(newHeaders);
+            }
+        }
+        return headers;
     }
 }

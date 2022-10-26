@@ -35,6 +35,7 @@ import java.util.Map;
 public class FlowContextUtils {
     private static final Base64.Decoder DECODER = Base64.getDecoder();
     private static final int TAG_PART_NUM = 2;
+    private static final String TAG_NAME = "sw8-correlation";
 
     private FlowContextUtils() {
     }
@@ -61,5 +62,42 @@ public class FlowContextUtils {
             tagMapping.put(new String(DECODER.decode(parts[0]), StandardCharsets.UTF_8), list);
         }
         return tagMapping;
+    }
+
+    /**
+     * 解码附件
+     *
+     * @param attachments 附件信息
+     * @return {@link Map}<{@link String}, {@link Object}>
+     */
+    public static Map<String, Object> decodeAttachments(Map<String, Object> attachments) {
+        if (attachments == null || attachments.isEmpty()) {
+            return attachments;
+        }
+        Object encode = attachments.get(TAG_NAME);
+        if (encode == null) {
+            return attachments;
+        }
+        String encodeTags = String.valueOf(encode);
+        Map<String, Object> allAttachments = new HashMap<>(attachments);
+        String[] tags = encodeTags.split(",");
+        for (String tag : tags) {
+            final String[] parts = tag.split(":");
+            if (parts.length != TAG_PART_NUM) {
+                continue;
+            }
+            allAttachments.put(decode(parts[0]), decode(parts[1]));
+        }
+        return Collections.unmodifiableMap(allAttachments);
+    }
+
+    /**
+     * 解码
+     *
+     * @param encodeString 编码的字符串
+     * @return {@link String}
+     */
+    private static String decode(String encodeString) {
+        return new String(DECODER.decode(encodeString), StandardCharsets.UTF_8);
     }
 }
