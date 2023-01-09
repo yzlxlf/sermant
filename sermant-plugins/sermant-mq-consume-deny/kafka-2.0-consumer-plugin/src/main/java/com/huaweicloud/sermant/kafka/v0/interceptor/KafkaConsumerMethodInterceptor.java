@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2022 Huawei Technologies Co., Ltd. All rights reserved.
+ * Copyright (C) 2022-2023 Huawei Technologies Co., Ltd. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -11,13 +11,13 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.huaweicloud.sermant.kafka.interceptor;
+package com.huaweicloud.sermant.kafka.v0.interceptor;
 
 import com.huaweicloud.sermant.core.plugin.agent.entity.ExecuteContext;
 import com.huaweicloud.sermant.core.plugin.agent.interceptor.AbstractInterceptor;
 import com.huaweicloud.sermant.core.plugin.config.PluginConfigManager;
 import com.huaweicloud.sermant.core.utils.ClassUtils;
-import com.huaweicloud.sermant.kafka.mock.MockKafkaConsumer;
+import com.huaweicloud.sermant.kafka.v0.mock.MockKafkaConsumer;
 import com.huaweicloud.sermant.message.common.config.DenyConsumeConfig;
 import com.huaweicloud.sermant.message.common.utils.MockUtils;
 
@@ -38,7 +38,7 @@ public class KafkaConsumerMethodInterceptor extends AbstractInterceptor {
      * KafkaConsumerMethodInterceptor
      */
     public KafkaConsumerMethodInterceptor() {
-        ClassUtils.defineClass("com.huaweicloud.sermant.kafka.mock.MockKafkaConsumer", getClass().getClassLoader());
+        ClassUtils.defineClass("com.huaweicloud.sermant.kafka.v0.mock.MockKafkaConsumer", getClass().getClassLoader());
         mockConsumer = new MockKafkaConsumer<>();
     }
 

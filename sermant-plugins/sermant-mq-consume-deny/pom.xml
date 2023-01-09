@@ -34,6 +34,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
+                <module>kafka-2.0-consumer-plugin</module>
                 <module>kafka-consumer-plugin</module>
                 <module>rabbitmq-consumer-plugin</module>
                 <module>message-common</module>
@@ -42,6 +43,7 @@
         <profile>
             <id>test</id>
             <modules>
+                <module>kafka-2.0-consumer-plugin</module>
                 <module>kafka-consumer-plugin</module>
                 <module>rabbitmq-consumer-plugin</module>
                 <module>message-common</module>
@@ -50,6 +52,7 @@
         <profile>
             <id>release</id>
             <modules>
+                <module>kafka-2.0-consumer-plugin</module>
                 <module>kafka-consumer-plugin</module>
                 <module>rabbitmq-consumer-plugin</module>
                 <module>message-common</module>

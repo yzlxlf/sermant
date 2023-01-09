@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2022 Huawei Technologies Co., Ltd. All rights reserved.
+ * Copyright (C) 2022-2023 Huawei Technologies Co., Ltd. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -11,18 +11,17 @@
  * specific language governing permissions and limitations under the License.
  */
 
-package com.huaweicloud.sermant.kafka.declarer;
+package com.huaweicloud.sermant.kafka.v0.declarer;
 
 import com.huaweicloud.sermant.core.plugin.agent.declarer.AbstractPluginDeclarer;
 import com.huaweicloud.sermant.core.plugin.agent.declarer.InterceptDeclarer;
 import com.huaweicloud.sermant.core.plugin.agent.matcher.ClassMatcher;
 import com.huaweicloud.sermant.core.plugin.agent.matcher.MethodMatcher;
-import com.huaweicloud.sermant.kafka.interceptor.KafkaConsumerConstructorInterceptor;
-import com.huaweicloud.sermant.kafka.interceptor.KafkaConsumerMethodInterceptor;
-import com.huaweicloud.sermant.kafka.matcher.KafkaConsumerMethodMatcher;
+import com.huaweicloud.sermant.kafka.v0.interceptor.KafkaConsumerConstructorInterceptor;
+import com.huaweicloud.sermant.kafka.v0.interceptor.KafkaConsumerMethodInterceptor;
+import com.huaweicloud.sermant.kafka.v0.matcher.KafkaConsumerMethodMatcher;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Deserializer;
-
-import java.util.Map;
 
 /**
  * kakfa消费端消费declarer<br>
@@ -44,7 +43,7 @@ public class KafkaConsumerDeclarer extends AbstractPluginDeclarer {
             InterceptDeclarer.build(KafkaConsumerMethodMatcher.matchKafkaMethod(),
                 KafkaConsumerMethodInterceptor.class.getCanonicalName()),
             InterceptDeclarer.build(
-                MethodMatcher.paramTypesEqual(Map.class, Deserializer.class, Deserializer.class),
+                MethodMatcher.paramTypesEqual(ConsumerConfig.class, Deserializer.class, Deserializer.class),
                 KafkaConsumerConstructorInterceptor.class.getCanonicalName())};
     }
 }
